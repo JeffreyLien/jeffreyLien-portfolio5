@@ -1,0 +1,9 @@
+.DS_Store
+.venv/
+__pycache__/
+.ipynb_checkpoints/
+*.pyc
+
+# Large synthetic tables rebuilt by src/generate_synthetic_data.py
+data/raw/*.csv
+data/processed/asset_daily_kpis.csv

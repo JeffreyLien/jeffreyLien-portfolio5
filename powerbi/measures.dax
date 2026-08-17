@@ -1,0 +1,36 @@
+// Core portfolio measures for the Power BI semantic model
+Total Generation MWh = SUM('Hourly Operations'[generation_mwh])
+
+Market Revenue = SUM('Hourly Operations'[market_revenue_usd])
+
+Gross Margin = SUM('Hourly Operations'[gross_margin_usd])
+
+Margin per MWh = DIVIDE([Gross Margin], [Total Generation MWh])
+
+Availability % = AVERAGE('Hourly Operations'[available_flag])
+
+Capacity Factor % =
+DIVIDE(
+    [Total Generation MWh],
+    SUMX(
+        VALUES('Hourly Operations'[asset_id]),
+        CALCULATE(MAX('Hourly Operations'[capacity_mw])) * DISTINCTCOUNT('Hourly Operations'[timestamp])
+    )
+)
+
+Forecast Generation MWh = SUM('Hourly Operations'[forecast_generation_mwh])
+
+Forecast Absolute Error MWh =
+ABS([Total Generation MWh] - [Forecast Generation MWh])
+
+Forecast Error % = DIVIDE([Forecast Absolute Error MWh], [Total Generation MWh])
+
+Curtailment MWh = SUM('Hourly Operations'[curtailment_mwh])
+
+Estimated Incremental Margin = SUM('Hourly Operations'[estimated_incremental_margin_usd])
+
+Realized Capture Price = DIVIDE([Market Revenue], [Total Generation MWh])
+
+Average RT Market Price = AVERAGE('Hourly Operations'[real_time_price_mwh])
+
+Capture Rate % = DIVIDE([Realized Capture Price], [Average RT Market Price])
